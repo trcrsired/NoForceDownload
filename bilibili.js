@@ -3,15 +3,17 @@ function nop(){}
 if (location.hostname === 'm.bilibili.com') 
 {
 	const selectors = [
-		'#app > div > div.m-video.m-video-normal > div.openapp-dialog',
 		'#app > div > div.m-video.m-video-normal > div.video-share > m-open-app.m-open-app.fixed-openapp',
 		'#app > div > div.m-video.m-video-normal > div.video-share > m-open-app > div',
+		'#app > div > div.m-video.m-video-normal > div.openapp-dialog',
 		'#app > div > div.m-video.m-video-normal > div.caution-dialog',	
 		'#app > div > div.m-navbar > div > m-open-app',
 		'#app > div > div.m-home > m-open-app',
 		'#app > div > m-open-app > button',
 		'#app > div > div.m-video.m-video-normal > div.video-natural-search > div.fixed-wrapper > m-open-app.m-open-app.m-video-main-launchapp',
-		'#app > div > div.m-footer'
+		'#app > div > div.m-footer',
+		'#app > div > div.m-video.m-video-normal > div.play-page-gotop',
+		'body > a'
 	];
 	const partialSelectors =  [
 		];
@@ -60,6 +62,7 @@ if (location.hostname === 'm.bilibili.com')
 		}
 	}
 	function removeSelectors() {
+
 		selectors.forEach(selector => {
 			document.querySelectorAll(selector).forEach(node => {
 				node.remove();
@@ -88,12 +91,12 @@ if (location.hostname === 'm.bilibili.com')
 		}
 	}
 	removeSelectors(); // Initial cleanup
-	window.addEventListener('load', () => {
+	function loadblocker() {
 		removeSelectors(); // Initial cleanup
 		const observer = new MutationObserver(() => removeSelectors());
 
 		const appRoot = document.querySelector('#app');
-		console.log("appRoot=",appRoot);
+
 		if (appRoot) {
 			observer.observe(appRoot, { childList: true, subtree: true });
 		}
@@ -103,9 +106,14 @@ if (location.hostname === 'm.bilibili.com')
 		{
 			observer.observe(bodyRoot, { childList: true, subtree: true });
 		}
-	});
 
-	window.addEventListener('DOMContentLoaded', fixOpenAppRedirects);
+	}
+	window.addEventListener('load', loadblocker);
+
+	window.addEventListener('DOMContentLoaded', () => {
+		loadblocker();
+		fixOpenAppRedirects();
+	});
 
 	//block bilibili force copy content into the clipboard
 	window.addEventListener('copy', (e) => {
