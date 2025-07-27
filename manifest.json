@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "NoForceDownload",
+  "version": "1.0",
+  "description": "Blocks automatic app redirection and forced APK downloads on mobile sites like Bilibili and Baidu.",
+  "permissions": ["scripting", "activeTab"],
+  "host_permissions": [
+    "*://*.bilibili.com/*",
+    "*://*.baidu.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.bilibili.com/*",
+        "*://*.baidu.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "128": "icons/icon128.png"
+  }
+}
