@@ -15,8 +15,16 @@ if (location.hostname === 'm.bilibili.com')
 		'#app > div > div.m-video.m-video-normal > div.play-page-gotop',
 		'body > a',
 		'#app > div > div.m-video.m-video-normal > div > div.m-video-info > div.title-wrapper > m-open-app',
+		'#app > div > div.suspension > div > div.m-navbar > div > m-open-app',
+		//Download app bar
+		'#app > div > div.m-video.m-video-normal > div > div.m-video-info > div.bottom-wrapper > div.toolbar-wrapper', // This is the vote/share/downvote bar, we disable it first to prevent misclick since it will jump to app. To do reimplement this feature
+		'#app > div > div.m-channel-view > m-open-app', //remove channel app download
+		'#__next > div > div.TopBar_container__c1Jqv > div.TopBar_right__vfGeb > m-open-app',
+		'#__next > div > m-open-app:nth-child(9)',
+		'#__next div[class^="FooterText_container__"]'
 	];
 	const partialSelectors =  [
+		
 		];
 
 	function removeByPartialMatch(rootSelector, partialClassFragments) {
