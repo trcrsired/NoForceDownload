@@ -1,4 +1,5 @@
 // bilibili.js
+function nop(){}
 if (location.hostname === 'm.bilibili.com') 
 {
 	const selectors = [
@@ -8,7 +9,9 @@ if (location.hostname === 'm.bilibili.com')
 		'#app > div > div.m-video.m-video-normal > div.caution-dialog',	
 		'#app > div > div.m-navbar > div > m-open-app',
 		'#app > div > div.m-home > m-open-app',
-		'#app > div > m-open-app > button'
+		'#app > div > m-open-app > button',
+		'#app > div > div.m-video.m-video-normal > div.video-natural-search > div.fixed-wrapper > m-open-app.m-open-app.m-video-main-launchapp',
+		'#app > div > div.m-footer'
 	];
 	const partialSelectors =  [
 		];
@@ -28,7 +31,9 @@ if (location.hostname === 'm.bilibili.com')
 
 
 	function fixOpenAppRedirects() {
-	
+		const titleEl = document.querySelector(
+			'#app > div > div.m-video.m-video-normal > div.video-share > div.m-video-info > div.title-wrapper > div > m-open-app'
+		);	
 		document.querySelectorAll('m-open-app').forEach(el => {
 			const url = el.getAttribute('universallink');
 			if (url) {
@@ -62,45 +67,41 @@ if (location.hostname === 'm.bilibili.com')
 		});
 		removeMainButton();
 		fixOpenAppRedirects();
-	}
 
+		let dialog = document.querySelector('body > div.v-dialog');
+		if (dialog) {
+			let cancelBtn = dialog.querySelector(
+					'div.v-dialog__body span'
+				);
+
+			if (cancelBtn) {
+				cancelBtn.click();
+				return;
+			}
+		}
+
+
+		const dialog2 = document.querySelector('body > div.v-dialog.open-app-dialog');
+		const closeBtn2 = dialog2?.querySelector('div.icon-close');
+		if (closeBtn2) {
+			closeBtn2.click();
+		}
+	}
+	removeSelectors(); // Initial cleanup
 	window.addEventListener('load', () => {
 		removeSelectors(); // Initial cleanup
+		const observer = new MutationObserver(() => removeSelectors());
+
 		const appRoot = document.querySelector('#app');
+		console.log("appRoot=",appRoot);
 		if (appRoot) {
-			const observer = new MutationObserver(() => removeSelectors());
 			observer.observe(appRoot, { childList: true, subtree: true });
 		}
 
 		const bodyRoot = document.querySelector('body');
 		if (bodyRoot)
 		{
-			const observer = new MutationObserver(() => {
-				removeSelectors();
-				let dialog = document.querySelector('body > div.v-dialog');
-				if (dialog) {
-					let cancelBtn = dialog.querySelector(
-							'div.v-dialog__body span'
-						);
-
-					if (cancelBtn) {
-						cancelBtn.click();
-					}
-				}
-				const dialog2 = document.querySelector('body > div.v-dialog.open-app-dialog');
-				const closeBtn2 = dialog2?.querySelector('div.icon-close');
-				if (closeBtn2) {
-					closeBtn2.click();
-				}
-
-			});
 			observer.observe(bodyRoot, { childList: true, subtree: true });
-		}
-
-		const selector2 = '#app > div > div.m-video.m-video-normal > div.video-natural-search > div > div > div > div.video-card';
-		const card = document.querySelector(selector2);
-		if (card) {
-			card.click()
 		}
 	});
 
