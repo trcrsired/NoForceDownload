@@ -14,7 +14,7 @@
         "*://*.bilibili.com/*",
         "*://*.baidu.com/*"
       ],
-      "js": ["content.js"],
+      "js": ["content.js", "bilibili.js"],
       "run_at": "document_start"
     }
   ],
