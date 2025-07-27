@@ -1,5 +1,33 @@
 // content.js
-import { shouldBlock } from 'blocker.js';
+
+const bilibili = {
+  domains: ['bilibili.com', 'dl.app.bilibili.com'],
+  blockPatterns: [/\.apk$/i, /app\.bilibili\.com/i]
+};
+
+const baidu = {
+  domains: ['tieba.baidu.com', 'baidu.com'],
+  blockPatterns: [/appredirect/i, /baiduapp:\/\//i]
+};
+
+const rules = [bilibili, baidu]; // Expand with more rule modules
+
+const hostname = location.hostname;
+
+// Select the rule matching current domain
+const activeRule = rules.find(rule =>
+  rule.domains.some(domain => hostname.includes(domain))
+);
+
+/**
+ * Checks whether a given URL or string matches known blocked patterns
+ * for the current domain.
+ */
+export function shouldBlock(url) {
+  if (!activeRule) return false;
+  return activeRule.blockPatterns.some(pattern => pattern.test(url));
+}
+
 
 (() => {
   /**
