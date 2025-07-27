@@ -13,7 +13,8 @@ if (location.hostname === 'm.bilibili.com')
 		'#app > div > div.m-video.m-video-normal > div.video-natural-search > div.fixed-wrapper > m-open-app.m-open-app.m-video-main-launchapp',
 		'#app > div > div.m-footer',
 		'#app > div > div.m-video.m-video-normal > div.play-page-gotop',
-		'body > a'
+		'body > a',
+		'#app > div > div.m-video.m-video-normal > div > div.m-video-info > div.title-wrapper > m-open-app',
 	];
 	const partialSelectors =  [
 		];
