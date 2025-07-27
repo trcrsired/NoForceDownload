@@ -71,6 +71,23 @@ if (location.hostname === 'm.bilibili.com')
 		removeMainButton();
 		fixOpenAppRedirects();
 
+	// Select the <h1> element nested inside <m-open-app>
+	const appH1 = document.querySelector('#app .m-video-info .title-wrapper m-open-app > h1');
+
+	if (appH1) {
+		// Select the container where <h1> should be moved
+		const wrapper = document.querySelector('#app .m-video-info .title-wrapper');
+
+		// Clone the <h1> and insert it at the beginning of the container
+		wrapper.insertBefore(appH1.cloneNode(true), wrapper.firstChild);
+
+		// Remove the <m-open-app> component completely
+		const openAppWrapper = document.querySelector('#app .m-video-info .title-wrapper m-open-app');
+		if (openAppWrapper) {
+			openAppWrapper.remove();
+		}
+	}
+
 		let dialog = document.querySelector('body > div.v-dialog');
 		if (dialog) {
 			let cancelBtn = dialog.querySelector(
