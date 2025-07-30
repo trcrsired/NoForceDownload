@@ -5,16 +5,22 @@
   "description": "Blocks automatic app redirection and forced APK downloads on mobile sites like Bilibili and Baidu.",
   "permissions": ["scripting", "activeTab"],
   "host_permissions": [
-    "*://*.bilibili.com/*",
-    "*://*.baidu.com/*"
+    "*://m.bilibili.com/*",
+    "*://weread.qq.com/*"
   ],
   "content_scripts": [
     {
       "matches": [
-        "*://*.bilibili.com/*",
-        "*://*.baidu.com/*"
+        "*://m.bilibili.com/*"
       ],
       "js": ["content.js", "bilibili.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://weread.qq.com/*"
+      ],
+      "js": ["wechatread.js"],
       "run_at": "document_start"
     }
   ],
